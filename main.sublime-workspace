@@ -1,0 +1,92 @@
+"""
+=============================================
+  Quant ML Project — Step 1 & 2
+  Data Download + Feature Engineering
+=============================================
+"""
+
+import yfinance as yf
+import pandas as pd
+import numpy as np
+
+# ─────────────────────────────────────────
+# STEP 1 — Téléchargement des données
+# ─────────────────────────────────────────
+
+TICKERS = ["SPY", "AAPL", "MSFT"]   # change selon ton besoin
+START   = "2015-01-01"
+END     = "2024-12-31"
+
+raw = yf.download(TICKERS, start=START, end=END, auto_adjust=True)
+
+# On bosse sur le Close (MultiIndex si plusieurs tickers)
+prices = raw["Close"]               # shape : (n_days, n_tickers)
+print(f"[✓] Prix téléchargés : {prices.shape[0]} jours, {prices.shape[1]} tickers")
+
+
+# ─────────────────────────────────────────
+# STEP 2 — Feature Engineering
+# ─────────────────────────────────────────
+
+def make_features(price_series: pd.Series, lags=(1, 2, 5), windows=(5, 10, 20)):
+    """
+    Génère les features classiques pour un ticker donné.
+
+    Args
+    ----
+    price_series : pd.Series  — prix de clôture ajusté (index = DatetimeIndex)
+    lags         : tuple[int] — décalages pour les rendements lagués
+    windows      : tuple[int] — fenêtres pour rolling mean & std
+
+    Returns
+    -------
+    pd.DataFrame avec toutes les features + la target (rendement J+1)
+    """
+    df = pd.DataFrame(index=price_series.index)
+    df["close"] = price_series
+
+    # ── Rendements journaliers
+    df["ret_1d"] = df["close"].pct_change()
+
+    # ── Rendements lagués  (r_{t-1}, r_{t-2}, r_{t-5})
+    for lag in lags:
+        df[f"ret_lag_{lag}"] = df["ret_1d"].shift(lag)
+
+    # ── Rolling mean des rendements
+    for w in windows:
+        df[f"roll_mean_{w}d"] = df["ret_1d"].rolling(w).mean()
+
+    # ── Rolling std (proxy de volatilité réalisée)
+    for w in windows:
+        df[f"roll_std_{w}d"] = df["ret_1d"].rolling(w).std()
+
+    # ── Target : rendement du lendemain (ce qu'on veut prédire)
+    df["target_ret_1d"] = df["ret_1d"].shift(-1)
+
+    # Vire les NaN du début / de la fin
+    df.dropna(inplace=True)
+
+    return df
+
+
+# ── Application sur chaque ticker
+features_dict = {}
+for ticker in TICKERS:
+    feat = make_features(prices[ticker])
+    features_dict[ticker] = feat
+    print(f"[✓] {ticker} — {feat.shape[0]} lignes, {feat.shape[1]} colonnes")
+
+# ── Exemple : afficher les premières lignes pour SPY
+print("\n── SPY features (head) ──")
+print(features_dict["SPY"].head())
+
+print("\n── Colonnes disponibles ──")
+print(features_dict["SPY"].columns.tolist())
+
+
+# ─────────────────────────────────────────
+# BONUS — Concat tous les tickers (panel)
+# ─────────────────────────────────────────
+
+panel = pd.concat(features_dict, names=["ticker", "date"])
+print(f"\n[✓] Panel complet : {panel.shape}")
