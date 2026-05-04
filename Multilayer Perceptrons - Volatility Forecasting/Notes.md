@@ -1,5 +1,5 @@
 - ## we can approximate many functions much more compactly by using **deeper** (rather than wider) networks ([Simonyan and Zisserman, 2014](https://d2l.ai/chapter_references/zreferences.html#id260 "Simonyan, K., & Zisserman, A. (2014). Very deep convolutional networks for large-scale image recognition. ArXiv:1409.1556."))
-- 
+- $Relu(x)$ $=$ $max(x,0)$ 
 - ## Activation Functions:
 	- ### ReLU Function : **$RELU(x)$ $=$ $max(x,0)$**
 	- ### parametrized ReLU (_pReLU_): **$PRELU(x)$ $=$ $max(x,0)$$+$$\alpha$$min(x,0)$ 
@@ -16,8 +16,20 @@
 
 ## FORWARD — calcule la loss
 y_hat = model(X)
-loss = loss_fn(y_hat, y) 
+loss = loss_fn(y_hat, y)
 ## BACKWARD — calcule les gradients
 loss.backward() 
 ## UPDATE — descend le gradient 
 optimizer.step()
+
+# Numerical Stability and initialization
+
+Causes of instabilities:
+- La symmetrie dans les neurons:
+	- si la valeur initiale des poids est constante pour tout les poids
+		- Solution: 
+		- on utilise des initialisations aléatoires comme **Xavier/Glorot** ou **He init** 
+
+			- **Xavier** : `w ~ Uniform(-√(6/(nᵢₙ+nₒᵤₜ)), +√(6/(nᵢₙ+nₒᵤₜ)))` → pour sigmoid/tanh
+			- **He** : `w ~ N(0, 2/nᵢₙ)` → pour ReLU
+		- Dropout: on desactive aleatoirement des neurons pour chaque batch
