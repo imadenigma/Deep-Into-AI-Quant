@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Deep-Into-AI-Quant.iml" filepath="$PROJECT_DIR$/.idea/Deep-Into-AI-Quant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Deep_Into_AI_Quant.iml" filepath="$PROJECT_DIR$/.idea/Deep_Into_AI_Quant.iml" />
     </modules>
   </component>
 </project>

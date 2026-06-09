@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - -isystem/home/imad/libtorch/include
+    - -isystem/home/imad/libtorch/include/torch/csrc/api/include
+    - -std=c++17
+    - -D_GLIBCXX_USE_CXX11_ABI=1
