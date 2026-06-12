@@ -29,7 +29,6 @@ Causes of instabilities:
 	- si la valeur initiale des poids est constante pour tout les poids
 		- Solution: 
 		- on utilise des initialisations aléatoires comme **Xavier/Glorot** ou **He init** 
-
 			- **Xavier** : `w ~ Uniform(-√(6/(nᵢₙ+nₒᵤₜ)), +√(6/(nᵢₙ+nₒᵤₜ)))` → pour sigmoid/tanh
 			- **He** : `w ~ N(0, 2/nᵢₙ)` → pour ReLU
 		- Dropout: on desactive aleatoirement des neurons pour chaque batch

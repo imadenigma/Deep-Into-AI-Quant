@@ -35,6 +35,7 @@ def download_data(tickers, start, end):
     return close, volume
 
 close, volume = download_data(TICKERS, START, END)
+print(close)
 
 def compute_realized_vol(close, window=5):
     log_ret = np.log(close / close.shift(1))

@@ -1,5 +1,6 @@
 import numpy as np
-
+import mplfinance as mpf
+import pandas as pd
 #Doji (1 candle) — open ≈ close (a tiny body), with wicks above and below. Signals indecision. We make open and close nearly equal and add symmetric shadows.
 #Hammer (1 candle) — small body sitting near the top of the range, a long lower wick (≥ 2× the body), almost no upper wick. We give it a small body and a long lower shadow.
 #Bullish engulfing (2 candles) — a small bearish candle (close < open), then a larger bullish candle (close > open) whose body fully engulfs the first: it opens below the first's close and closes above the first's open.
@@ -58,8 +59,8 @@ for label, fn in makers.items():
         X.append(np.stack([o,h,l,c], axis=0))
         y.append(label)
 
-X = np.asarray(X)
-y = np.asarray(y)
+X = np.asarray(X, dtype=np.float32)
+y = np.asarray(y, dtype=np.float32)
 perm = rng.permutation(len(y))  # shuffle so classes aren't grouped
 X, y = X[perm], y[perm]
 
