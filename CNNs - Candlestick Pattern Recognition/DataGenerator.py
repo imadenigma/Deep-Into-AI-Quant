@@ -60,7 +60,7 @@ for label, fn in makers.items():
         y.append(label)
 
 X = np.asarray(X, dtype=np.float32)
-y = np.asarray(y, dtype=np.float32)
+y = np.asarray(y, dtype=np.int64)
 perm = rng.permutation(len(y))  # shuffle so classes aren't grouped
 X, y = X[perm], y[perm]
 

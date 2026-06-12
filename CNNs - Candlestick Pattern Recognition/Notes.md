@@ -1,12 +1,12 @@
 # Each module should:
 1. Ingest input data as arguments to its forward propagation method.
-    
+
 2. Generate an output by having the forward propagation method return a value. Note that the output may have a different shape from the input. For example, the first fully connected layer in our model above ingests an input of arbitrary dimension but returns an output of dimension 256.
-    
+
 3. Calculate the gradient of its output with respect to its input, which can be accessed via its backpropagation method. Typically this happens automatically.
-    
+
 4. Store and provide access to those parameters necessary for executing the forward propagation computation.
-    
+
 5. Initialize model parameters as needed.
 # In C++:
 ### torch::NoGradGuard ng; (this optimise the forward when we don't need to calculate the backward as it turns Grad Tracking Off and re On on destruction)
@@ -15,37 +15,37 @@
 ### Translation Invariance
 $$[\mathbf{H}]_{i, j} = u + \sum_a \sum_b [\mathbf{V}]_{a, b} [\mathbf{X}]_{i+a, j+b}.$$
 ### Locality
-	$$[\mathbf{H}]_{i, j} = u + \sum_{a = -\Delta}^{\Delta} \sum_{b = -\Delta}^{\Delta} [\mathbf{V}]_{a, b} [\mathbf{X}]_{i+a, j+b}.$$
- the output size is given by the input size  minus the size of the convolution kernel  via
+$$[\mathbf{H}]_{i, j} = u + \sum_{a = -\Delta}^{\Delta} \sum_{b = -\Delta}^{\Delta} [\mathbf{V}]_{a, b} [\mathbf{X}]_{i+a, j+b}.$$
+the output size is given by the input size  minus the size of the convolution kernel  via
  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-  <mo stretchy="false">(</mo>
-  <msub>
-    <mi>n</mi>
-    <mtext>h</mtext>
-  </msub>
-  <mo>&#x2212;</mo>
-  <msub>
-    <mi>k</mi>
-    <mtext>h</mtext>
-  </msub>
-  <mo>+</mo>
-  <mn>1</mn>
-  <mo stretchy="false">)</mo>
-  <mo>&#xD7;</mo>
-  <mo stretchy="false">(</mo>
-  <msub>
-    <mi>n</mi>
-    <mtext>w</mtext>
-  </msub>
-  <mo>&#x2212;</mo>
-  <msub>
-    <mi>k</mi>
-    <mtext>w</mtext>
-  </msub>
-  <mo>+</mo>
-  <mn>1</mn>
-  <mo stretchy="false">)</mo>
-  <mo>.</mo>
+<mo stretchy="false">(</mo>
+<msub>
+<mi>n</mi>
+<mtext>h</mtext>
+</msub>
+<mo>&#x2212;</mo>
+<msub>
+<mi>k</mi>
+<mtext>h</mtext>
+</msub>
+<mo>+</mo>
+<mn>1</mn>
+<mo stretchy="false">)</mo>
+<mo>&#xD7;</mo>
+<mo stretchy="false">(</mo>
+<msub>
+<mi>n</mi>
+<mtext>w</mtext>
+</msub>
+<mo>&#x2212;</mo>
+<msub>
+<mi>k</mi>
+<mtext>w</mtext>
+</msub>
+<mo>+</mo>
+<mn>1</mn>
+<mo stretchy="false">)</mo>
+<mo>.</mo>
 </math>
 The two parameters of a convolutional layer are the kernel and the scalar bias.
 

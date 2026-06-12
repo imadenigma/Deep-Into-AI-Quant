@@ -11,8 +11,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 add_executable(Deep_Into_AI_Quant
-        "CNNs - Candlestick Pattern Recognition/main.cpp"
         "CNNs - Candlestick Pattern Recognition/CandleCNN.h"
+        "CNNs - Candlestick Pattern Recognition/train.cpp"
 )
 
 target_include_directories(Deep_Into_AI_Quant PRIVATE "${TORCH_INCLUDE_DIRS}")
